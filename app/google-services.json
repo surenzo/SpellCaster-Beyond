@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1052857321616",
+    "project_id": "spellcasterfurther",
+    "storage_bucket": "spellcasterfurther.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052857321616:android:8738edcaab2912e1437015",
+        "android_client_info": {
+          "package_name": "com.example.spellcasterfurtherdonegood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABJNoBPeuvnuLvIX6xrBlpfrQH-hH-DHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
