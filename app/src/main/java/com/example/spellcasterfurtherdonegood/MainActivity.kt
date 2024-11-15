@@ -8,45 +8,39 @@ import android.widget.GridView
 import android.widget.Spinner
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.example.spellcasterfurtherdonegood.databinding.ActivityMainBinding
 
-class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel by viewModels()
+class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        supportActionBar?.hide()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        replaceFragment(Library())
 
-        val categorySpinner: Spinner = findViewById(R.id.category_spinner)
-        val spellGrid: GridView = findViewById(R.id.spell_grid)
-        val addSpellButton: Button = findViewById(R.id.add_spell_button)
-        val signInButton: Button = findViewById(R.id.sign_in_button)
-        val goSpells: Button = findViewById(R.id.go_to_spells_seing)
-
-
-        val categories = listOf("Abjuration", "Conjuration", "Divination", "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation")
-        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-        categorySpinner.adapter = categoryAdapter
-
-        val spellAdapter = SpellAdapter(this, mutableListOf())
-        spellGrid.adapter = spellAdapter
-
-        viewModel.selectedCategory.observe(this, Observer { category ->
-            val spells = viewModel.getSpellsForCategory(category)
-            spellAdapter.updateSpells(spells)
-        })
-
-
-        addSpellButton.setOnClickListener {
-            // Handle add spell logic
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.library -> {
+                    replaceFragment(Library())
+                    true
+                }
+                R.id.inventory -> {
+                    replaceFragment(Inventory())
+                    true
+                }
+                else -> false
+            }
         }
-        signInButton.setOnClickListener {
-            val intent = Intent(this, ActivityResultLauncher::class.java)
-            startActivity(intent)
-        }
-        goSpells.setOnClickListener {
-            val intent = Intent(this, SpellsSeing::class.java)
-            startActivity(intent)
-        }
+    }
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.commit()
     }
 }
