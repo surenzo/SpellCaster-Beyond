@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
         val spellGrid: GridView = findViewById(R.id.spell_grid)
         val addSpellButton: Button = findViewById(R.id.add_spell_button)
         val signInButton: Button = findViewById(R.id.sign_in_button)
+        val goSpells: Button = findViewById(R.id.go_to_spells_seing)
 
 
         val categories = listOf("Abjuration", "Conjuration", "Divination", "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation")
@@ -41,6 +42,10 @@ class MainActivity : ComponentActivity() {
         }
         signInButton.setOnClickListener {
             val intent = Intent(this, ActivityResultLauncher::class.java)
+            startActivity(intent)
+        }
+        goSpells.setOnClickListener {
+            val intent = Intent(this, SpellsSeing::class.java)
             startActivity(intent)
         }
     }

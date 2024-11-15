@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ActivityResultLauncher" />
+        <activity android:name=".SpellsSeing" />
     </application>
 
 </manifest>

@@ -34,4 +34,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Sign in" />
+    <Button
+        android:id="@+id/go_to_spells_seing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Spells" />
 </LinearLayout>

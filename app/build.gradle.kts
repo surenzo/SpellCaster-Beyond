@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation("com.google.firebase:firebase-auth")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+    implementation("com.google.firebase:firebase-firestore")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
