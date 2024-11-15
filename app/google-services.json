@@ -12,7 +12,20 @@
           "package_name": "com.example.spellcasterfurtherdonegood"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1052857321616-qcg0vetornb2sekggbje1fhrej3csqk2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.spellcasterfurtherdonegood",
+            "certificate_hash": "9a21fe290d04bcc5429209ce017dc9de81719a97"
+          }
+        },
+        {
+          "client_id": "1052857321616-fbvvkrhub0921q5k72q7g3gtu7sthujv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyABJNoBPeuvnuLvIX6xrBlpfrQH-hH-DHk"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052857321616-fbvvkrhub0921q5k72q7g3gtu7sthujv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

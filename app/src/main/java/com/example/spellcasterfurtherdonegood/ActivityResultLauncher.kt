@@ -1,6 +1,7 @@
 package com.example.spellcasterfurtherdonegood
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
@@ -8,7 +9,7 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 
-class ActivityResultLauncher : AppCompatActivity() {
+class ActivityResultLauncher : ComponentActivity() {
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -20,10 +21,7 @@ class ActivityResultLauncher : AppCompatActivity() {
         // Choose authentication providers
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.PhoneBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build(),
-            AuthUI.IdpConfig.FacebookBuilder().build(),
-            AuthUI.IdpConfig.TwitterBuilder().build(),
         )
 
         // Create and launch sign-in intent
@@ -48,9 +46,29 @@ class ActivityResultLauncher : AppCompatActivity() {
         }
     }
 
+    private fun signOut() {
+        // [START auth_fui_signout]
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+                // ...
+            }
+        // [END auth_fui_signout]
+    }
+
+    private fun delete() {
+        // [START auth_fui_delete]
+        AuthUI.getInstance()
+            .delete(this)
+            .addOnCompleteListener {
+                // ...
+            }
+        // [END auth_fui_delete]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result_launcher)
+        createSignInIntent()
     }
 }
