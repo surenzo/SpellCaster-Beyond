@@ -2,4 +2,14 @@
     <string name="app_name">SpellCasterFurtherDoneGood</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="maintitle">SpellCasterFurther</string>
+    <string name="signingoogle">Continue with Google</string>
+    <string name="signinmail">Continue with Mail</string>
+    <string name="username">email</string>
+    <string name="enter_username">enter email</string>
+    <string name="password">password</string>
+    <string name="enter_password">enter password</string>
+    <string name="forgot_password">forgot password ?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
 </resources>
