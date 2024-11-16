@@ -55,6 +55,7 @@ class LoginActivity : ComponentActivity(){
         updateUI(currentUser)
     }
 
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -109,7 +110,8 @@ class LoginActivity : ComponentActivity(){
 
     //MAIL
     private fun callLoginDialog() {
-        var myDialog = object : Dialog(this) {
+        val myDialog = object : Dialog(this) {
+            @Deprecated("Deprecated in Java", ReplaceWith("dismiss()"))
             override fun onBackPressed() {
                 dismiss()
             }
@@ -122,16 +124,16 @@ class LoginActivity : ComponentActivity(){
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        var emailaddr: EditText = myDialog.findViewById(R.id.et_username)
-        var password: EditText = myDialog.findViewById(R.id.et_password)
+        val emailAddress: EditText = myDialog.findViewById(R.id.et_username)
+        val password: EditText = myDialog.findViewById(R.id.et_password)
         myDialog.show()
 
         (myDialog.findViewById<Button>(R.id.loginButton)!!).setOnClickListener {
-            if(emailaddr.text.toString().isEmpty() || password.text.toString().isEmpty()){
+            if(emailAddress.text.toString().isEmpty() || password.text.toString().isEmpty()){
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
             else{
-            signIn(emailaddr.text.toString(), password.text.toString())
+            signIn(emailAddress.text.toString(), password.text.toString())
             myDialog.dismiss()
             }
         }
@@ -147,7 +149,8 @@ class LoginActivity : ComponentActivity(){
 
     //MAIL
     private fun callCreateDialog() {
-        var myDialog = object : Dialog(this) {
+        val myDialog = object : Dialog(this) {
+            @Deprecated("Deprecated in Java")
             override fun onBackPressed() {
                 dismiss()
                 callLoginDialog()
@@ -161,8 +164,8 @@ class LoginActivity : ComponentActivity(){
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        var emailaddr: EditText = myDialog.findViewById(R.id.et_username)
-        var password: EditText = myDialog.findViewById(R.id.et_password)
+        val emailAddress: EditText = myDialog.findViewById(R.id.et_username)
+        val password: EditText = myDialog.findViewById(R.id.et_password)
         myDialog.show()
 
         (myDialog.findViewById<Button>(R.id.createButton)!!).setOnClickListener {
@@ -172,11 +175,11 @@ class LoginActivity : ComponentActivity(){
                 Toast.makeText(this, "Password must contain at least 8 characters, a number, a lower case letter, an upper case letter, and a special character", Toast.LENGTH_SHORT).show()
             }
             else
-                if(emailaddr.text.toString().isEmpty() || password.text.toString().isEmpty()){
+                if(emailAddress.text.toString().isEmpty() || password.text.toString().isEmpty()){
                     Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    createAccount(emailaddr.text.toString(), password.text.toString())
+                    createAccount(emailAddress.text.toString(), password.text.toString())
                     myDialog.dismiss()
                 }
         }
@@ -184,7 +187,8 @@ class LoginActivity : ComponentActivity(){
 
     //MAIL
     private fun callForgotDialog() {
-        var myDialog = object : Dialog(this) {
+        val myDialog = object : Dialog(this) {
+            @Deprecated("Deprecated in Java")
             override fun onBackPressed() {
                 dismiss()
                 callLoginDialog()
@@ -198,15 +202,15 @@ class LoginActivity : ComponentActivity(){
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        var emailaddr: EditText = myDialog.findViewById(R.id.et_username)
+        val emailAddress: EditText = myDialog.findViewById(R.id.et_username)
         myDialog.show()
 
         (myDialog.findViewById<Button>(R.id.createButton)!!).setOnClickListener {
-            if(emailaddr.text.toString().isEmpty() ){
+            if(emailAddress.text.toString().isEmpty() ){
                 Toast.makeText(this, "Please fill in field", Toast.LENGTH_SHORT).show()
             }
             else{
-                sendPasswordReset(emailaddr.text.toString())
+                sendPasswordReset(emailAddress.text.toString())
                 myDialog.dismiss()
             }
         }

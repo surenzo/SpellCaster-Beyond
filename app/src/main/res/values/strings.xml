@@ -14,5 +14,6 @@
     <string name="create_account">Create Account</string>
     <string name="send_email">Send Verification Email</string>
     <string name="Send">Send</string>
+    <string name="library">Library</string>
 
 </resources>

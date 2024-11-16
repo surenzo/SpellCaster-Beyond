@@ -7,12 +7,43 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:navigationIcon="@drawable/baseline_person_24">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/library"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
+    </FrameLayout>
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign out "
-        android:onClick="signOut"/>
+        android:onClick="signOut"
+        android:text="Sign out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -21,7 +52,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
 
     </FrameLayout>
 

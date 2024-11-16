@@ -11,6 +11,7 @@ import android.widget.Spinner
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.spellcasterfurtherdonegood.databinding.ActivityMainBinding
@@ -26,6 +27,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Redirect to login page if not logged in
+        setupLogin()
+
+        // Redirect to profile page
+        
+
+        setupBottomNavigationBar()
+    }
+
+    private fun setupLogin() {
         auth = Firebase.auth
 
         if (auth.currentUser == null) {
@@ -34,8 +45,19 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         Log.e("Logged in", auth.currentUser?.email.toString())
+    }
 
+    private fun setupProfilePage() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupBottomNavigationBar() {
         supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -47,17 +69,15 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(Library())
                     true
                 }
+
                 R.id.inventory -> {
                     replaceFragment(Inventory())
                     true
                 }
+
                 else -> false
             }
         }
-    }
-
-    private fun reload() {
-        TODO("Not yet implemented")
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -66,6 +86,8 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+
+    //TODO : le mettre sur la page de profile
     fun signOut(view: View) {
         auth.signOut()
         val intent = Intent(this, LoginActivity::class.java)
