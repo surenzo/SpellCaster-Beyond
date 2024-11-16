@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
         // Redirect to login page if not logged in
         setupLogin()
 
-        // Redirect to profile page
-        
-
         setupBottomNavigationBar()
+
+        // Redirect to profile page
+        setupProfilePage()
     }
 
     private fun setupLogin() {
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupProfilePage() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.title = ""
 
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
@@ -58,7 +59,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigationBar() {
-        supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(Library())
@@ -87,10 +87,4 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    //TODO : le mettre sur la page de profile
-    fun signOut(view: View) {
-        auth.signOut()
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()}
 }

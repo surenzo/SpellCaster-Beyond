@@ -15,5 +15,12 @@
     <string name="send_email">Send Verification Email</string>
     <string name="Send">Send</string>
     <string name="library">Library</string>
+    <string name="profile">Profile</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="pseudonym">Pseudonym</string>
+    <string name="expert_mode">Expert mode (beta) ( not done yet)</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="update_informations">Update Informations</string>
 
 </resources>

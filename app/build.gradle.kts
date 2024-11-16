@@ -8,6 +8,7 @@ android {
     namespace = "com.example.spellcasterfurtherdonegood"
     compileSdk = 35
 
+
     defaultConfig {
         applicationId = "com.example.spellcasterfurtherdonegood"
         minSdk = 24

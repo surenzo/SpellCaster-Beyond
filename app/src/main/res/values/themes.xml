@@ -1,6 +1,9 @@
 <!-- res/values/styles.xml -->
 <resources>
     <style name="Theme.SpellCasterFurtherDoneGood" parent="Theme.AppCompat.Light">
+        <!-- Disable the default action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <!-- Personnalisez votre thème ici -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
