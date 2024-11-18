@@ -1,55 +1,81 @@
 package com.example.spellcasterfurtherdonegood
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Inventory.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Inventory : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var spellAdapter: SpellAdapter
+    private lateinit var recyclerView: RecyclerView
+    private val spellList = mutableListOf<Spell>()
+
+    private val auth = Firebase.auth
+    //initiate firestore
+    private val db = FirebaseFirestore.getInstance()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_inventory, container, false)
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        spellAdapter = SpellAdapter(spellList, "inventory")
+        recyclerView.adapter = spellAdapter
+
+        fetchSpellsFromFirestore()
+
+        return view
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inventory, container, false)
-    }
+    private fun fetchSpellsFromFirestore() {
+        var nameSpells = mutableListOf<String>()
+        db.collection("users").document(auth.currentUser?.displayName.toString())
+            .get()
+            .addOnSuccessListener { document ->
+                if(document != null) {
+                    Log.e("Spell", "${document.id} => ${document.data}")
+                    val spells = document.data?.get("spells")
+                    if (spells is MutableList<*>) {
+                        nameSpells = spells.filterIsInstance<String>().toMutableList()
+                        querySpells(nameSpells)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Inventory.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic fun newInstance(param1: String, param2: String) =
-                Inventory().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                    } else {
+                        Log.e("Error", "Spells data is not a list of strings")
                     }
+                } else {
+                    Log.e("Error", "No such document")
                 }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Error", "Error getting documents: ", exception)
+            }
     }
+
+    private fun querySpells(nameSpells: MutableList<String>) {
+        val query = db.collection("spells").whereIn("name", nameSpells)
+        query.get()
+            .addOnSuccessListener { result ->
+                Log.d("Spell", "Success")
+                for (document in result) {
+                    Log.e("Spell", "${document.id} => ${document.data}")
+                    val spell = document.toObject(Spell::class.java)
+                    spellList.add(spell)
+                }
+                spellAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Error", "Error getting documents: ", exception)
+            }
+    }
+
 }

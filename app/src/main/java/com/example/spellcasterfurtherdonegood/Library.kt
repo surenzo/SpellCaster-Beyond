@@ -26,7 +26,7 @@ class Library : Fragment() {
         val view = inflater.inflate(R.layout.fragment_library, container, false)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        spellAdapter = SpellAdapter(spellList)
+        spellAdapter = SpellAdapter(spellList, "library")
         recyclerView.adapter = spellAdapter
 
         fetchSpellsFromFirestore()

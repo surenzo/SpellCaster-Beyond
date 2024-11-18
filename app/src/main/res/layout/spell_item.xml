@@ -1,9 +1,24 @@
 <!-- res/layout/spell_item.xml -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@drawable/ic_launcher_background"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
     android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_bolt_24" />
 
     <TextView
         android:id="@+id/spell_name"
@@ -11,13 +26,31 @@
         android:layout_height="wrap_content"
         android:text="Spell Name"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
-        android:id="@+id/spell_description"
+        android:id="@+id/spell_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Spell Description"
+        android:text="Spell Category"
         android:textSize="14sp"
-        android:layout_below="@id/spell_name" />
-</RelativeLayout>
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/spell_name" />
+
+    <Button
+        android:id="@+id/spell_cast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cast"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

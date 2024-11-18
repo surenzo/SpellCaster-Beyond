@@ -1,20 +1,25 @@
 // SpellAdapter.kt
 package com.example.spellcasterfurtherdonegood
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android. app. Activity
+import android.content.Context
+import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 
-data class Spell(val name: String = "", val description: String = "")
+data class Spell(val name: String = "", val category: String = "", val description: String = "", val incantation: String = "", val somatic:Boolean = false, val price: Float = 0.0f, val material: Map<String,Int> =  LinkedHashMap<String, Int>()  , val damage: String = "")
 
 
-class SpellAdapter(private val spellList: List<Spell>) : RecyclerView.Adapter<SpellAdapter.SpellViewHolder>() {
+class SpellAdapter(private val spellList: List<Spell>, private val activity: String) : RecyclerView.Adapter<SpellAdapter.SpellViewHolder>() {
 
     class SpellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val spellName: TextView = itemView.findViewById(R.id.spell_name)
-        val spellDescription: TextView = itemView.findViewById(R.id.spell_description)
+        val spellCategory: TextView = itemView.findViewById(R.id.spell_category)
+        val spellCast: Button = itemView.findViewById(R.id.spell_cast)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpellViewHolder {
@@ -25,7 +30,52 @@ class SpellAdapter(private val spellList: List<Spell>) : RecyclerView.Adapter<Sp
     override fun onBindViewHolder(holder: SpellViewHolder, position: Int) {
         val currentSpell = spellList[position]
         holder.spellName.text = currentSpell.name
-        holder.spellDescription.text = currentSpell.description
+        holder.spellCategory.text = currentSpell.category
+        // check the activity, if it is the library does that
+        if(activity == "library"){
+            holder.spellCast.visibility = View.GONE
+            holder.itemView.setOnClickListener(View.OnClickListener {
+                // Start new activity with spell details
+                Intent(holder.itemView.context, SpellDetailsActivity::class.java).apply {
+                    putExtra("spellName", currentSpell.name)
+                    putExtra("spellCategory", currentSpell.category)
+                    putExtra("spellDescription", currentSpell.description)
+                    putExtra("spellIncantation", currentSpell.incantation)
+                    putExtra("spellSomatic", currentSpell.somatic)
+                    putExtra("spellPrice", currentSpell.price)
+                    putExtra("spellMaterial", currentSpell.material.toString())
+                    putExtra("spellDamage", currentSpell.damage)
+                    holder.itemView.context.startActivity(this)
+                }
+            })
+        }
+        if(activity == "inventory")
+        {
+            holder.spellCast.setOnClickListener(View.OnClickListener {
+                // Start new activity with spell details
+                Intent(holder.itemView.context, CastActivity::class.java).apply {
+                    putExtra("spellName", currentSpell.name)
+                    putExtra("spellIncantation", currentSpell.incantation)
+                    putExtra("spellSomatic", currentSpell.somatic)
+                    putExtra("spellDamage", currentSpell.damage)
+                    holder.itemView.context.startActivity(this)
+                }
+            })
+            holder.itemView.setOnClickListener(View.OnClickListener {
+                // Start new activity with spell details
+                Intent(holder.itemView.context, SpellDetailsActivity::class.java).apply {
+                    putExtra("spellName", currentSpell.name)
+                    putExtra("spellCategory", currentSpell.category)
+                    putExtra("spellDescription", currentSpell.description)
+                    putExtra("spellIncantation", currentSpell.incantation)
+                    putExtra("spellSomatic", currentSpell.somatic)
+                    putExtra("spellPrice", currentSpell.price)
+                    putExtra("spellMaterial", currentSpell.material.toString())
+                    putExtra("spellDamage", currentSpell.damage)
+                    holder.itemView.context.startActivity(this)
+                }
+            })
+        }
     }
 
     override fun getItemCount() = spellList.size
