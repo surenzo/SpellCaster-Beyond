@@ -1,25 +1,41 @@
 package com.example.spellcasterfurtherdonegood
 
-import android.content.Intent
-import android.os.Build
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.spellcasterfurtherdonegood.drawingrecognizer.PDollarRecognizer
+import com.example.spellcasterfurtherdonegood.drawingrecognizer.Point
+import com.example.spellcasterfurtherdonegood.drawingrecognizer.PointCloudView
+import org.opencv.android.OpenCVLoader
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.core.MatOfPoint
+import org.opencv.core.Point as CvPoint
+import org.opencv.core.Scalar
+import org.opencv.imgproc.Imgproc
 
 class DrawActivity : AppCompatActivity() {
 
     var sommaticPercentage = 100
+    private lateinit var recognizer: PDollarRecognizer
+    private lateinit var distanceTextView: TextView
+    private lateinit var pointCloudView: PointCloudView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draw)
+
+        if (!OpenCVLoader.initDebug()) {
+            Log.e("OpenCV", "Unable to load OpenCV")
+        }
 
         val spellName = intent.getStringExtra("spellName")
         val spellSomatic = intent.getBooleanExtra("spellSomatic", false)
@@ -29,31 +45,50 @@ class DrawActivity : AppCompatActivity() {
         val nextButton: Button = findViewById(R.id.button_next)
         val retryButton: Button = findViewById(R.id.button_retry)
         val progressBar: ProgressBar = findViewById(R.id.progressBar)
-        val distanceTextView: TextView = findViewById(R.id.distance)
+        distanceTextView = findViewById(R.id.distance)
+        pointCloudView = findViewById(R.id.pointCloudView)
 
-        val toolbar : Toolbar = findViewById(R.id.toolbar)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         supportActionBar?.title = ""
         toolbar.setNavigationOnClickListener {
             finish()
         }
 
-        //nextButton.visibility = View.GONE
-
         spellNameTextView.text = spellName
         progressBar.progress = 0
         progressBar.progressTintList = getColorStateList(R.color.colorProgressFirst)
         retryButton.text = "Begin"
+
+        // Initialize PDollarRecognizer
+        recognizer = PDollarRecognizer()
+        try {
+            // Load the cercle.png image and convert it to points
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.circle)
+            val pointsFromImage = extractPointsFromImage(bitmap)
+
+            // Recognize the points
+            val result = recognizer.recognize(pointsFromImage)
+
+            // Update the distanceTextView with the recognition result
+            distanceTextView.text = "Recognition result: ${result.name}, Score: ${result.score}"
+
+            // Set the point clouds to the custom view for drawing
+            pointCloudView.add(recognizer.pointClouds[2].points)
+            pointCloudView.add(pointsFromImage)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            distanceTextView.text = "Error: ${e.message}"
+            Log.e("DrawActivity", "Error: ${e.message}")
+        }
     }
 
     fun nextButton(view: View) {
-        // Create an AlertDialog to show the damage and confirm the action
         val nani = intent.getStringExtra("spellDamage")
-        // in nani we have "2d6" we take the maximum value of the dice and multiply it by the number of dice to calculate the damage
         val dice = nani?.split("d")
         val maxDiceValue = dice?.get(1)?.toInt()
         val diceNumber = dice?.get(0)?.toInt()
         val damage = maxDiceValue?.times(diceNumber!!)
-        val spellDamage = (intent.getIntExtra("incantationPercentage", 0) + sommaticPercentage ) * damage!! / 200
+        val spellDamage = (intent.getIntExtra("incantationPercentage", 0) + sommaticPercentage) * damage!! / 200
         AlertDialog.Builder(this)
             .setTitle("Damage Report")
             .setMessage("You did $spellDamage damage. Do you want to go back to the main activity?")
@@ -66,5 +101,30 @@ class DrawActivity : AppCompatActivity() {
     fun retryButton(view: View) {
         val retryButton: Button = findViewById(R.id.button_retry)
         retryButton.text = "Retry"
+    }
+
+    private fun extractPointsFromImage(bitmap: Bitmap): List<Point> {
+        val points = mutableListOf<Point>()
+        val mat = Mat(bitmap.height, bitmap.width, CvType.CV_8UC1)
+        val bmp32 = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        org.opencv.android.Utils.bitmapToMat(bmp32, mat)
+
+        // Convert to grayscale
+        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY)
+        // Apply Canny edge detection
+        Imgproc.Canny(mat, mat, 50.0, 150.0)
+
+        // Find contours
+        val contours = mutableListOf<MatOfPoint>()
+        Imgproc.findContours(mat, contours, Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE)
+
+        // Extract points from contours
+        for (contour in contours) {
+            for (point in contour.toArray()) {
+                points.add(Point(point.x.toFloat(), point.y.toFloat(), 0))
+            }
+        }
+
+        return points
     }
 }

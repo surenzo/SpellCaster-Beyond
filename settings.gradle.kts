@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SpellCasterFurtherDoneGood"
 include(":app")
- 
+include(":opencv")
