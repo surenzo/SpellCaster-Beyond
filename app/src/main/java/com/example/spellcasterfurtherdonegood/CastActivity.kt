@@ -1,5 +1,6 @@
 package com.example.spellcasterfurtherdonegood
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -18,17 +19,23 @@ class CastActivity : AppCompatActivity() {
 
     private lateinit var speechRecognitionHelper: SpeechRecognitionHelper
 
+    var spellName = ""
+    var spellSomatic = false
+    var spellMaterial = ""
+    var spellDamage = ""
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    var incantationPercentage = 0
+
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cast)
 
-        val spellName = intent.getStringExtra("spellName")
-        val spellIncantation = intent.getStringExtra("spellIncantation")
-        val spellSomatic = intent.getBooleanExtra("spellSomatic", false)
-        val spellMaterial = intent.getStringExtra("spellMaterial")
-        val spellDamage = intent.getStringExtra("spellDamage")
+        spellName = intent.getStringExtra("spellName").toString()
+        val spellIncantation = intent.getStringExtra("spellIncantation").toString()
+        spellSomatic = intent.getBooleanExtra("spellSomatic", false)
+        spellMaterial = intent.getStringExtra("spellMaterial").toString()
+        spellDamage = intent.getStringExtra("spellDamage").toString()
 
         val spellNameTextView: TextView = findViewById(R.id.spell_name)
         val incantation: TextView = findViewById(R.id.spell_incantation)
@@ -48,16 +55,12 @@ class CastActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             finish()
         }
-        SpeechRecognitionHelper.recognizedText.value = ""
         // Observe changes in recognizedText and update the TextView
         SpeechRecognitionHelper.recognizedText.observe(this, Observer { text ->
             spellRecitationTextView.text = text
             val distance = levenshtein(spellIncantation!!, text)
             distanceTextView.text = "Distance: $distance"
             val percentage:Float = (spellIncantation.length - distance).toFloat() / spellIncantation.length * 100
-            Log.d("Distance", distance.toString())
-            Log.d("SpellIncantation", spellIncantation.length.toString())
-            Log.d("Percentage", percentage.toString())
             if(percentage > 0){
                 progressBar.progress = percentage.toInt()
                 if (percentage > 0){
@@ -81,9 +84,10 @@ class CastActivity : AppCompatActivity() {
         SpeechRecognitionHelper.isSpeechEnded.observe(this, Observer { isEnded ->
             if (isEnded) {
                 nextButton.visibility = View.VISIBLE
+                incantationPercentage = progressBar.progress
             }
             else {
-                nextButton.visibility = View.GONE
+                //nextButton.visibility = View.GONE
             }
         })
 
@@ -97,13 +101,18 @@ class CastActivity : AppCompatActivity() {
     }
 
     fun nextButton(view: View) {
-
+        Intent(this, DrawActivity::class.java).apply {
+            putExtra("spellName", spellName)
+            putExtra("incantationPercentage", incantationPercentage)
+            putExtra("spellSomatic", spellSomatic)
+            putExtra("spellMaterial", spellMaterial)
+            putExtra("spellDamage", spellDamage)
+            startActivity(this)
+        }
+        finish()
     }
 
     fun retryButton(view: View) {
-        if(speechRecognitionHelper.isListening()){
-            speechRecognitionHelper.stopListening()
-        }
         val retryButton: Button = findViewById(R.id.button_retry)
         retryButton.text = "Retry"
         speechRecognitionHelper.startListening()
