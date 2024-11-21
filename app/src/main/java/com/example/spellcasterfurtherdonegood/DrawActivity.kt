@@ -13,13 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.spellcasterfurtherdonegood.drawingrecognizer.PDollarRecognizer
 import com.example.spellcasterfurtherdonegood.drawingrecognizer.Point
+import com.example.spellcasterfurtherdonegood.drawingrecognizer.PointCloud
 import com.example.spellcasterfurtherdonegood.drawingrecognizer.PointCloudView
 import org.opencv.android.OpenCVLoader
 import org.opencv.core.CvType
 import org.opencv.core.Mat
 import org.opencv.core.MatOfPoint
-import org.opencv.core.Point as CvPoint
-import org.opencv.core.Scalar
 import org.opencv.imgproc.Imgproc
 
 class DrawActivity : AppCompatActivity() {
@@ -28,6 +27,7 @@ class DrawActivity : AppCompatActivity() {
     private lateinit var recognizer: PDollarRecognizer
     private lateinit var distanceTextView: TextView
     private lateinit var pointCloudView: PointCloudView
+    private val points: MutableList<Point> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,28 +57,44 @@ class DrawActivity : AppCompatActivity() {
         spellNameTextView.text = spellName
         progressBar.progress = 0
         progressBar.progressTintList = getColorStateList(R.color.colorProgressFirst)
-        retryButton.text = "Begin"
 
         // Initialize PDollarRecognizer
         recognizer = PDollarRecognizer()
-        try {
-            // Load the cercle.png image and convert it to points
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.circle)
-            val pointsFromImage = extractPointsFromImage(bitmap)
 
-            // Recognize the points
-            val result = recognizer.recognize(pointsFromImage)
+        // Load the cercle.png image and convert it to points
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.circle)
+        val pointsFromImage = extractPointsFromImage(bitmap)
 
-            // Update the distanceTextView with the recognition result
-            distanceTextView.text = "Recognition result: ${result.name}, Score: ${result.score}"
+        // Recognize the points
+        recognizer.pointClouds = ArrayList( mutableListOf(
+            PointCloud("Circle", pointsFromImage)
+        ))
 
-            // Set the point clouds to the custom view for drawing
-            pointCloudView.add(recognizer.pointClouds[2].points)
-            pointCloudView.add(pointsFromImage)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            distanceTextView.text = "Error: ${e.message}"
-            Log.e("DrawActivity", "Error: ${e.message}")
+        pointCloudView.setOnStrokeCompleteListener { stroke ->
+            var lastId = 0
+            if(points.isNotEmpty()) {
+                lastId = points[points.size - 1].id
+            }
+            stroke.forEach { point ->
+                Point(point.x, point.y, lastId + 1)
+            }
+            points.addAll(stroke)
+            val result = recognizer.recognize(points)
+            distanceTextView.text = result.score.toString()
+            sommaticPercentage = (result.score * 100).toInt()
+            progressBar.progress = sommaticPercentage
+            if (sommaticPercentage > 0){
+                progressBar.progressTintList = getColorStateList(R.color.colorProgressFirst)
+            }
+            if(sommaticPercentage > 25){
+                progressBar.progressTintList = getColorStateList(R.color.colorProgressSecond)
+            }
+            if(sommaticPercentage > 50){
+                progressBar.progressTintList = getColorStateList(R.color.colorProgressThird)
+            }
+            if(sommaticPercentage > 75){
+                progressBar.progressTintList = getColorStateList(R.color.colorProgressFourth)
+            }
         }
     }
 
@@ -99,8 +115,9 @@ class DrawActivity : AppCompatActivity() {
     }
 
     fun retryButton(view: View) {
-        val retryButton: Button = findViewById(R.id.button_retry)
-        retryButton.text = "Retry"
+        points.clear()
+        pointCloudView.clear()
+        distanceTextView.text = "Recognition result: "
     }
 
     private fun extractPointsFromImage(bitmap: Bitmap): List<Point> {

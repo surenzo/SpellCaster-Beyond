@@ -61,6 +61,7 @@ class CastActivity : AppCompatActivity() {
             val distance = levenshtein(spellIncantation!!, text)
             distanceTextView.text = "Distance: $distance"
             val percentage:Float = (spellIncantation.length - distance).toFloat() / spellIncantation.length * 100
+            incantationPercentage = percentage.toInt()
             if(percentage > 0){
                 progressBar.progress = percentage.toInt()
                 if (percentage > 0){
