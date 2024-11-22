@@ -11,7 +11,7 @@ import android.content.Context
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 
-data class Spell(val name: String = "", val category: String = "", val description: String = "", val incantation: String = "", val somatic:Boolean = false, val price: Float = 0.0f, val material: Map<String,Int> =  LinkedHashMap<String, Int>()  , val damage: String = "")
+data class Spell(val name: String = "", val category: String = "", val description: String = "", val incantation: String = "", val somatic:Boolean = false, val price: Float = 0.0f, val material: String =  ""  , val damage: String = "")
 
 
 class SpellAdapter(private val spellList: List<Spell>, private val activity: String) : RecyclerView.Adapter<SpellAdapter.SpellViewHolder>() {
@@ -43,7 +43,7 @@ class SpellAdapter(private val spellList: List<Spell>, private val activity: Str
                     putExtra("spellIncantation", currentSpell.incantation)
                     putExtra("spellSomatic", currentSpell.somatic)
                     putExtra("spellPrice", currentSpell.price)
-                    putExtra("spellMaterial", currentSpell.material.toString())
+                    putExtra("spellMaterial", currentSpell.material)
                     putExtra("spellDamage", currentSpell.damage)
                     holder.itemView.context.startActivity(this)
                 }
@@ -70,7 +70,7 @@ class SpellAdapter(private val spellList: List<Spell>, private val activity: Str
                     putExtra("spellIncantation", currentSpell.incantation)
                     putExtra("spellSomatic", currentSpell.somatic)
                     putExtra("spellPrice", currentSpell.price)
-                    putExtra("spellMaterial", currentSpell.material.toString())
+                    putExtra("spellMaterial", currentSpell.material)
                     putExtra("spellDamage", currentSpell.damage)
                     holder.itemView.context.startActivity(this)
                 }

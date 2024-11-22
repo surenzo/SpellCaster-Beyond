@@ -1,16 +1,18 @@
 query GetSpells {
   spells {
-    name
-    material
-    ritual
+    desc
     school {
       name
     }
-    casting_time
+    name
     damage {
       damage_at_character_level {
         damage
+        level
       }
     }
+    material
+    components
+    casting_time
   }
 }
