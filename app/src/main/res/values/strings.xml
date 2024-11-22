@@ -5,7 +5,7 @@
     <string name="maintitle">SpellCasterFurther</string>
     <string name="signingoogle">Continue with Google</string>
     <string name="signinmail">Continue with Mail</string>
-    <string name="username">email</string>
+    <string name="email">email</string>
     <string name="enter_username">enter email</string>
     <string name="password">password</string>
     <string name="enter_password">enter password</string>
