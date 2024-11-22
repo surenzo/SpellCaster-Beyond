@@ -39,6 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -47,50 +48,138 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Price" />
+                android:text="Price"
+                android:visibility="gone" />
+
+
+            <LinearLayout
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="School : "
+                    android:textSize="@dimen/_spell_details_normal"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/spell_category"
+                    android:textSize="@dimen/_spell_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Damage : "
+                    android:textSize="@dimen/_spell_details_normal"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/spell_damage"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_spell_details_text"
+                    android:layout_height="wrap_content"
+                    android:text="Damage" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_materials"
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Materials : "
+                    android:textSize="@dimen/_spell_details_normal"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/spell_materials"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_spell_details_text"
+                    android:text="materials" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_incantation"
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Incantation : "
+                    android:textSize="@dimen/_spell_details_normal"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/spell_vocal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_spell_details_text"
+                    android:text="spell vocal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sommatic"
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Somatic component : "
+                    android:textSize="@dimen/_spell_details_normal"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
+                <TextView
+                    android:id="@+id/spell_sommatic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_spell_details_text"
+                    android:text="sommatic" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/spell_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Category" />
-
-            <TextView
-                android:id="@+id/spell_damage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="Damage" />
-
+                android:text="Description : "
+                android:textSize="@dimen/_spell_details_normal"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/spell_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/_spell_details_text"
                 android:layout_marginStart="20dp"
                 android:text="Description" />
-
-            <TextView
-                android:id="@+id/spell_materials"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="materials" />
-
-            <TextView
-                android:id="@+id/spell_vocal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="spell vocal" />
-
-            <TextView
-                android:id="@+id/spell_sommatic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="sommatic" />
         </LinearLayout>
     </ScrollView>
 

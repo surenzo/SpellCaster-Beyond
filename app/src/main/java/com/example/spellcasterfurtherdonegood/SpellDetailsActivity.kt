@@ -34,6 +34,7 @@ class SpellDetailsActivity : AppCompatActivity() {
         val spellPrice = intent.getFloatExtra("spellPrice", 0.0f)
         val spellMaterial = intent.getStringExtra("spellMaterial")
         val spellDamage = intent.getStringExtra("spellDamage")
+        val fromInventory = intent.getBooleanExtra("fromInventory", false)
 
         // Update UI elements with the retrieved data
         val spellNameTextView: TextView = findViewById(R.id.spell_name)
@@ -44,6 +45,10 @@ class SpellDetailsActivity : AppCompatActivity() {
         val price: TextView = findViewById(R.id.spell_price)
         val material: TextView = findViewById(R.id.spell_materials)
         val damage: TextView = findViewById(R.id.spell_damage)
+        val addToInventoryButton: View = findViewById(R.id.add_to_inventory)
+        if(fromInventory) {
+            addToInventoryButton.visibility = View.GONE
+        }
 
 
         val toolbar : Toolbar = findViewById(R.id.toolbar)
@@ -72,6 +77,13 @@ class SpellDetailsActivity : AppCompatActivity() {
 
         db.collection("users").document(auth.currentUser?.displayName.toString())
             .set(data, SetOptions.merge())
+            .addOnSuccessListener {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("inventory", true)
+                }
+                startActivity(intent)
+                finish()
+            }
     }
 
 

@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.GridView
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         // Redirect to login page if not logged in
         setupLogin()
@@ -59,19 +61,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigationBar() {
+        //get extra data from the intent and go to the inventory fragment if the data is not null
+        val spellName = intent.getBooleanExtra("inventory", false)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Library())
+        if(spellName) {
+            replaceFragment(Inventory())
+        } else {
+            replaceFragment(Library())
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.library -> {
                     replaceFragment(Library())
+                    val title : TextView = findViewById(R.id.toolbar_title)
+                    title.text = "Library"
                     true
                 }
 
                 R.id.inventory -> {
                     replaceFragment(Inventory())
+                    val title : TextView = findViewById(R.id.toolbar_title)
+                    title.text = "Inventory"
                     true
                 }
 

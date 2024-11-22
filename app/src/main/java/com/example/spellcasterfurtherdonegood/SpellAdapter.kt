@@ -80,6 +80,7 @@ class SpellAdapter(private val spellList: List<Spell>, private val activity: Str
                     putExtra("spellPrice", currentSpell.price)
                     putExtra("spellMaterial", currentSpell.material)
                     putExtra("spellDamage", currentSpell.damage)
+                    putExtra("fromInventory", true)
                     holder.itemView.context.startActivity(this)
                 }
             })

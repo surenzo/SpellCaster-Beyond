@@ -107,7 +107,7 @@ class DrawActivity : AppCompatActivity() {
         val spellDamage = (intent.getIntExtra("incantationPercentage", 0) + sommaticPercentage) * damage!! / 200
         AlertDialog.Builder(this)
             .setTitle("Damage Report")
-            .setMessage("You did $spellDamage damage. Do you want to go back to the main activity?")
+            .setMessage("You did $spellDamage damage.")
             .setPositiveButton("OK") { dialog, which ->
                 finish()
             }

@@ -124,8 +124,37 @@ class ProfileActivity : AppCompatActivity() {
         (myDialog.findViewById<Button>(R.id.updateButton)!!).setOnClickListener {
             val profileUpdates = userProfileChangeRequest {
                 //update the username and the photo if the user put something in the fields
-                if (username.text.toString() != "")
+                if (username.text.toString() != ""){
+
+                    //change the user database to the new username
+                    val db = FirebaseFirestore.getInstance()
+                    val currentUserDocRef = db.collection("users").document(auth.currentUser?.displayName.toString())
+                    currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
+                        if (!documentSnapshot.exists()) {
+                            return@addOnSuccessListener
+                        }
+
+                        val userData = documentSnapshot.data ?: return@addOnSuccessListener
+
+                        db.collection("users").document(username.text.toString()).set(userData)
+                            .addOnSuccessListener {
+                                Log.d("Connection", "User data copied to new username.")
+                                currentUserDocRef.delete()
+                                    .addOnSuccessListener {
+                                        Log.d("Connection", "User data deleted.")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("Connection", "Error deleting user data", e)
+                                    }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Connection", "Error copying user data", e)
+                            }
+                    }
                     displayName = username.text.toString()
+                }
+
+                //if the user put a link to a picture, set it
                 if (linkPicture.text.toString() != "")
                     photoUri = linkPicture.text.toString().toUri()
             }
