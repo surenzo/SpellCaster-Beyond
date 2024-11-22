@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("com.apollographql.apollo").version("4.0.0")
 }
-
 android {
     namespace = "com.example.spellcasterfurtherdonegood"
     compileSdk = 35
@@ -58,7 +58,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation("com.google.firebase:firebase-firestore")
-    implementation("com.apollographql.apollo3:apollo-runtime:4.0.0")
+    implementation("com.apollographql.apollo:apollo-runtime:4.0.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -78,4 +79,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+apollo {
+    service("service") {
+    packageName.set("com.SpellCasterFurtherDoneGood.graphql") // Replace with your desired package name
+    schemaFile.set(file("src/main/graphql/com/example/spellcasterfurtherdonegood/schema.graphqls"))
+    }
 }

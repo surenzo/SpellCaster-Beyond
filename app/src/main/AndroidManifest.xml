@@ -28,6 +28,7 @@
         <activity android:name=".SpellDetailsActivity"/>
         <activity android:name=".CastActivity"/>
         <activity android:name=".DrawActivity"/>
+        <activity android:name=".SpecialActivity"/>
 
     </application>
 

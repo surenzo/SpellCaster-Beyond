@@ -36,7 +36,7 @@ class SpeechRecognitionHelper(private val context: Context) {
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
         speechIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "fr-FR")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "la")
             putExtra(RecognizerIntent.EXTRA_PROMPT, "Parlez maintenant...")
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)

@@ -69,4 +69,8 @@ class ProfileActivity : AppCompatActivity() {
     fun updateAccount(view: View) {
         // TODO: Implement update account
     }
+    fun toSpecial(view: View){
+        val intent = Intent(this, SpecialActivity::class.java)
+        startActivity(intent)
+    }
 }
