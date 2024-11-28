@@ -15,6 +15,7 @@ import com.example.spellcasterfurtherdonegood.drawingrecognizer.PDollarRecognize
 import com.example.spellcasterfurtherdonegood.drawingrecognizer.Point
 import com.example.spellcasterfurtherdonegood.drawingrecognizer.PointCloud
 import com.example.spellcasterfurtherdonegood.drawingrecognizer.PointCloudView
+import com.google.firebase.firestore.FirebaseFirestore
 import org.opencv.android.OpenCVLoader
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -61,14 +62,40 @@ class DrawActivity : AppCompatActivity() {
         // Initialize PDollarRecognizer
         recognizer = PDollarRecognizer()
 
-        // Load the cercle.png image and convert it to points
+        val db = FirebaseFirestore.getInstance()
+        db.collection("spells").document(spellName.toString())
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    val pointsData = document.data?.get("points") as? List<Map<String, Any>>
+                    val points = pointsData?.map { pointData ->
+                        Point(
+                            (pointData["x"] as Double).toFloat(),
+                            (pointData["y"] as Double).toFloat(),
+                            (pointData["id"] as Long).toInt()
+                        )
+                    } ?: emptyList()
+
+                    val pointCloud = PointCloud(document.getString("name") ?: "", points)
+                    recognizer.pointClouds = mutableListOf(pointCloud)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Error", "Error getting documents: ", exception)
+                recognizer.pointClouds = mutableListOf()
+            }
+
+        //the circle is now stored in points on the firebase database
+        /*----- OLD ONE -------
+         // Load the cercle.png image and convert it to points
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.circle)
         val pointsFromImage = extractPointsFromImage(bitmap)
 
         // Recognize the points
         recognizer.pointClouds = ArrayList( mutableListOf(
             PointCloud("Circle", pointsFromImage)
-        ))
+        ))----- OLD ONE -------*/
+        pointCloudView.pointClouds = recognizer.pointClouds
 
         pointCloudView.setOnStrokeCompleteListener { stroke ->
             var lastId = 0

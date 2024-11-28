@@ -43,7 +43,7 @@ class Inventory : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 if(document != null) {
-                    Log.e("Spell", "${document.id} => ${document.data}")
+                    //Log.e("Spell", "${document.id} => ${document.data}")
                     val spells = document.data?.get("spells")
                     if (spells is MutableList<*>) {
                         nameSpells = spells.filterIsInstance<String>().toMutableList()
@@ -65,9 +65,9 @@ class Inventory : Fragment() {
         val query = db.collection("spells").whereIn("name", nameSpells)
         query.get()
             .addOnSuccessListener { result ->
-                Log.d("Spell", "Success")
+                //Log.d("Spell", "Success")
                 for (document in result) {
-                    Log.e("Spell", "${document.id} => ${document.data}")
+                    //Log.e("Spell", "${document.id} => ${document.data}")
                     val spell = document.toObject(Spell::class.java)
                     spellList.add(spell)
                 }

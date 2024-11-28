@@ -27,26 +27,15 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/desired_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/circle"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/button_next"
-        android:scaleType="fitCenter"
-        tools:ignore="ContentDescription" />
 
     <com.example.spellcasterfurtherdonegood.drawingrecognizer.PointCloudView
         android:id="@+id/pointCloudView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/desired_image"
+        app:layout_constraintBottom_toTopOf="@+id/button_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/desired_image" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/button_retry"

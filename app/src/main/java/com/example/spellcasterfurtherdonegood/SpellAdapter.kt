@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android. app. Activity
-import android.content.Context
 import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-data class Spell(val name: String = "", val category: String = "", val description: String = "", val incantation: String = "", val somatic:Boolean = false, val price: Float = 0.0f, val material: String =  ""  , val damage: String = "")
+data class Spell(val name: String = "", val category: String = "", val description: String = "", val incantation: String = "", val sommatic:Boolean = false, val price: Float = 0.0f, val material: String =  "", val damage: String = "")
 
 
 class SpellAdapter(private val spellList: List<Spell>, private val activity: String) : RecyclerView.Adapter<SpellAdapter.SpellViewHolder>() {
@@ -49,7 +47,7 @@ class SpellAdapter(private val spellList: List<Spell>, private val activity: Str
                     putExtra("spellCategory", currentSpell.category)
                     putExtra("spellDescription", currentSpell.description)
                     putExtra("spellIncantation", currentSpell.incantation)
-                    putExtra("spellSomatic", currentSpell.somatic)
+                    putExtra("spellSomatic", currentSpell.sommatic)
                     putExtra("spellPrice", currentSpell.price)
                     putExtra("spellMaterial", currentSpell.material)
                     putExtra("spellDamage", currentSpell.damage)
@@ -64,7 +62,7 @@ class SpellAdapter(private val spellList: List<Spell>, private val activity: Str
                 Intent(holder.itemView.context, CastActivity::class.java).apply {
                     putExtra("spellName", currentSpell.name)
                     putExtra("spellIncantation", currentSpell.incantation)
-                    putExtra("spellSomatic", currentSpell.somatic)
+                    putExtra("spellSomatic", currentSpell.sommatic)
                     putExtra("spellDamage", currentSpell.damage)
                     holder.itemView.context.startActivity(this)
                 }
@@ -76,7 +74,7 @@ class SpellAdapter(private val spellList: List<Spell>, private val activity: Str
                     putExtra("spellCategory", currentSpell.category)
                     putExtra("spellDescription", currentSpell.description)
                     putExtra("spellIncantation", currentSpell.incantation)
-                    putExtra("spellSomatic", currentSpell.somatic)
+                    putExtra("spellSomatic", currentSpell.sommatic)
                     putExtra("spellPrice", currentSpell.price)
                     putExtra("spellMaterial", currentSpell.material)
                     putExtra("spellDamage", currentSpell.damage)

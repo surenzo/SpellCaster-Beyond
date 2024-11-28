@@ -39,7 +39,7 @@ class Library : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    Log.e("Spell", "${document.id} => ${document.data}")
+                    //Log.e("Spell", "${document.id} => ${document.data}")
                     val spell = document.toObject(Spell::class.java)
                     spellList.add(spell)
                 }
