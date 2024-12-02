@@ -68,6 +68,17 @@ class DrawActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     val pointsData = document.data?.get("points") as? List<Map<String, Any>>
+                    //if pointsData is null, draw circle
+                    if(pointsData == null){
+                        // Load the cercle.png image and convert it to points
+                        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.circle)
+                        val pointsFromImage = extractPointsFromImage(bitmap)
+
+                        // Recognize the points
+                        recognizer.pointClouds = mutableListOf(PointCloud("Circle", pointsFromImage))
+                        pointCloudView.pointClouds = recognizer.pointClouds
+                        return@addOnSuccessListener
+                    }
                     val points = pointsData?.map { pointData ->
                         Point(
                             (pointData["x"] as Double).toFloat(),
@@ -75,9 +86,12 @@ class DrawActivity : AppCompatActivity() {
                             (pointData["id"] as Long).toInt()
                         )
                     } ?: emptyList()
+                    Log.e("Points", points.toString())
 
                     val pointCloud = PointCloud(document.getString("name") ?: "", points)
+                    Log.e("Point Cloud", pointCloud.toString())
                     recognizer.pointClouds = mutableListOf(pointCloud)
+                    pointCloudView.pointClouds = recognizer.pointClouds
                 }
             }
             .addOnFailureListener { exception ->
@@ -95,7 +109,6 @@ class DrawActivity : AppCompatActivity() {
         recognizer.pointClouds = ArrayList( mutableListOf(
             PointCloud("Circle", pointsFromImage)
         ))----- OLD ONE -------*/
-        pointCloudView.pointClouds = recognizer.pointClouds
 
         pointCloudView.setOnStrokeCompleteListener { stroke ->
             var lastId = 0
