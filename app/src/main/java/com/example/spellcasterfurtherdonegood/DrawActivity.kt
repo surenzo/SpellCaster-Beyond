@@ -78,7 +78,7 @@ class DrawActivity : AppCompatActivity() {
                         recognizer.pointClouds = mutableListOf(PointCloud("Circle", pointsFromImage))
                         pointCloudView.pointClouds = recognizer.pointClouds
                         return@addOnSuccessListener
-                    }
+                    }  
                     val points = pointsData?.map { pointData ->
                         Point(
                             (pointData["x"] as Double).toFloat(),

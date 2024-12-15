@@ -1,0 +1,13 @@
+Le speechrecognizer est un peu capricieux, voir de ce coté la - c'est plus simple quand y'a pas de bruit ! 
+le drawingrecognizer est ptt a changer ? - plutôt voir pour créer les forme et les store dans la catégorie sommatique des spells - generer par ia parce que flemme :) 
+
+implémenter les tunes :D
+
+reprendre la base du sort : faire comme sur dnd beyond :)
+
+
+
+Problèmes : 
+les images que je charge dans la librairie / inventaire est pt : on les charges une infinité de fois - ptt telecharger les photos aussi xd
+la database est chargé tout le temps quand on change entre librairie et inventaire : faut recuperer les caches  !!
+ca prend du temps de charger les infos, on fait quoi ?
